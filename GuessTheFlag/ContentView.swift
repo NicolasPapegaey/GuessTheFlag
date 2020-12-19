@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
+    @State private var countries = ["Estonie", "France", "Allemagne", "Ireland", "Italie", "Nigéria", "Pologne", "Russie", "Spain", "UK", "US"].shuffled()
 
     @State private var correctAnswer = Int.random(in: 0...2)
     
@@ -17,6 +17,19 @@ struct ContentView: View {
     @State private var userScore = 0
     @State private var alertMessage = ""
     
+    struct FlagImage: View {
+        var image: String
+
+        var body: some View {
+            Image(image)
+                .renderingMode(.original)
+                .clipShape(Capsule())
+                .overlay(Capsule().stroke(Color.black, lineWidth: 1))
+                .shadow(color: .black, radius: 2)
+        }
+    }
+    
+    
     func flagTapped(_ number: Int) {
         if number == correctAnswer {
             scoreTitle = "Correct"
@@ -24,7 +37,7 @@ struct ContentView: View {
             alertMessage = "Good answer!"
         } else {
             scoreTitle = "Wrong"
-            alertMessage = "Wrong! That's the flag of \(countries[number])."
+            alertMessage = "Mauvaise réponse, c'est le drapeau de \(countries[number])."
         }
         showingScore = true
     }
@@ -51,11 +64,7 @@ struct ContentView: View {
                     Button(action: {
                         flagTapped(number)
                     }) {
-                        Image(self.countries[number])
-                            .renderingMode(.original)
-                            .clipShape(Capsule())
-                            .overlay(Capsule().stroke(Color.black, lineWidth: 1))
-                            .shadow(color: .black, radius: 2)
+                        FlagImage(image: self.countries[number])
                     }
                 }
                 Text("Your Score : \(userScore)")
@@ -72,6 +81,7 @@ struct ContentView: View {
         }
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
